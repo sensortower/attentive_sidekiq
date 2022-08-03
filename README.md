@@ -74,10 +74,17 @@ After that you can use your jobs as usual.
 
 Specify desired configuration inside of `sidekiq.yml` file:
 
+By default jobs will not be monitored, in order to enable monitoring of your job, you will need to add `:
+attentive_reliable => true` sidekiq option it e.g.
+```ruby
+sidekiq_options :queue => :accessibility, :retry => 3, :attentive_reliable => true
+```
+
+
 ```YML
 attentive:
   # Time in seconds between checks for disappeared jobs
-  :execution_interval: 300  # default: 600
+  :execution_interval: 60  # default: 600
   # Time limit in seconds to perform disappeared jobs check
   :timeout_interval: 25     # default: 60
 ```
