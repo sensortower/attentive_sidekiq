@@ -12,7 +12,10 @@ module AttentiveSidekiq
 
           yield
         ensure
-          Suspicious.remove(item['jid']) if reliable_job
+          if reliable_job
+            Suspicious.remove(item['jid'])
+            Disappeared.remove(item['jid'])
+          end
         end
       end
     end
