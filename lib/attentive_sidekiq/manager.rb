@@ -24,6 +24,10 @@ module AttentiveSidekiq
       # We need to get the new suspicious list again, and remove any lost jobs that are no longer there.
       # Those jobs that appeared in the first suspicious list, but not the second one were simply finished
       # quickly by Sidekiq before showing up as active by a worker.
+
+      # give sidekiq time to update suspicious list, maybe the jobs finished,
+      # but it takes some time until it is removed from the suspicious list
+      sleep(10)
       suspicious  = AttentiveSidekiq::Suspicious.jobs
       those_lost.delete_if{|i| !suspicious.any?{|j| i['jid'] == j['jid']} }
       
